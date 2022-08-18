@@ -9,7 +9,7 @@ git init
 git clone https://github.com/antoine-gajan/Puissance-4.git
 ```
 
-##Lancer le jeu
+## Lancer le jeu
 Il faut d'abord se diriger dans l'arborescence des fichiers vers le dossier, puis executer les commandes suivantes : 
 ```
 npm install
