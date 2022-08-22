@@ -7,6 +7,8 @@ function Game()
     const [joueurActuel, updateJoueurActuel] = useState('rouge')
     const [gagne, updateGagne] = useState(false)
     const [tableau, updateTableau] = useState(Array(42).fill('blanc'))
+    const [historique, updateHistorique] = useState([Array(42).fill('blanc')])
+    const [coupActuel, updateCoupActuel] = useState(0)
     return(
         <div className={'game'}>
             {gagne === false ?
@@ -69,6 +71,9 @@ function Game()
                     {createCase(41)}
                 </div>
             </div>
+            {coupActuel > 0 && !gagne ? (<button onClick={()=> cancel()}>Tour précédent</button>) : null}
+            {coupActuel !== historique.length -1 && !gagne ? (<button onClick={()=> rejouer()}>Tour suivant</button>) : null}
+
             {gagne ? (<button className={'new'} onClick={()=>newgame()}>Rejouer</button>) : null}
             <footer>
                 <p className="footer"> Réalisé par Antoine GAJAN | 2022</p>
@@ -83,6 +88,8 @@ function Game()
             const newTab = tableau.slice()
             newTab[ref] = joueurActuel === 'rouge' ? 'rouge' : 'jaune'
             updateTableau(newTab);
+            updateHistorique(historique.concat([newTab]))
+            updateCoupActuel(coupActuel + 1)
             if (win(newTab))
             {
                 updateGagne(true);
@@ -91,7 +98,6 @@ function Game()
             {
                 joueurActuel === 'rouge' ? updateJoueurActuel('jaune') : updateJoueurActuel('rouge')
             }
-
         }
     }
     function coupPossible(valeur)
@@ -178,6 +184,24 @@ function Game()
     {
         updateGagne(false)
         updateTableau(Array(42).fill('blanc'))
+    }
+    function cancel()
+    {
+        if (coupActuel > 0)
+        {
+            updateTableau(historique[coupActuel - 1])
+            updateCoupActuel(coupActuel - 1)
+            joueurActuel === 'rouge' ? updateJoueurActuel('jaune') : updateJoueurActuel('rouge')
+        }
+    }
+    function rejouer()
+    {
+        if (coupActuel !== historique.length - 1)
+        {
+            updateTableau(historique[coupActuel + 1])
+            updateCoupActuel(coupActuel + 1)
+            joueurActuel === 'rouge' ? updateJoueurActuel('jaune') : updateJoueurActuel('rouge')
+        }
     }
 }
 

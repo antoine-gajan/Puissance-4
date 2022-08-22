@@ -11,7 +11,8 @@ body
 .board
 {
     margin: 0 auto;
-    padding: 5px;
+    padding: 15px;
+    width: 440px;
 }
 
 .ligne
